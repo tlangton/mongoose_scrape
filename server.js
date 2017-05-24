@@ -47,49 +47,6 @@ db.once("open", function() {
   console.log("Mongoose connection successful.");
 });
 
-// First, tell the console what server.js is doing
-// console.log(
-//   "\n***********************************\n" +
-//     "my trial Reuters" +
-//     "\n***********************************\n"
-// );
-
-// Making a request call for reddit's "webdev" board. The page's HTML is saved as the callback's third argument
-request("http://www.reuters.com/news/archive/topNews", function(
-  error,
-  response,
-  html
-) {
-  // Load the HTML into cheerio and save it to a variable
-  // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
-  var $ = cheerio.load(html);
-
-  // An empty array to save the data that we'll scrape
-  var result = [];
-
-  // With cheerio, find each p-tag with the "title" class
-  // (i: iterator. element: the current element)
-  $(".story").each(function(i, element) {
-    // Save the text of the element (this) in a "title" variable
-
-    // console.log(element);
-
-    var storyTitle = $(element).find("h3.story-title").text();
-    storyTitle = storyTitle.trim();
-    var storySrc = $(element).find("p").text();
-    var storyImg = $(element).children().attr("href");
-    // Save these results in an object that we'll push into the result array we defined earlier
-    result.push({
-      title: storyTitle,
-      body: storySrc,
-      image: storyImg
-    });
-  });
-
-  // Log the result once cheerio analyzes each of its selected elements
-  // console.log(result);
-});
-
 // Routes
 // ======
 
@@ -111,7 +68,8 @@ app.get("/scrape", function(req, res) {
       // Add the text and href of every link, and save them as properties of the result object
       result.title = $(element).find("h3.story-title").text();
       result.body = $(element).find("p").text();
-
+      result.link = $(element).find("a").attr("href");
+      result.image = $(element).find("img").attr("org-src");
       // Using our Article model, create a new entry
       // This effectively passes the result object to the entry (and the title and link)
       var entry = new Article(result);
