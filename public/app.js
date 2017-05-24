@@ -1,3 +1,5 @@
+var wwwUrl = "http://www.reuters.com";
+
 // Grab the articles as a json
 $.getJSON("/articles", function(data) {
   // For each one
@@ -9,8 +11,13 @@ $.getJSON("/articles", function(data) {
         "'>" +
         data[i].title +
         "<br />" +
+        '<a href="' +
+        wwwUrl +
         data[i].link +
-        "</p>"
+        '">Link</a>' +
+        "<br /><img src=http:" +
+        data[i].image +
+        '"></p>'
     );
   }
 });

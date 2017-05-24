@@ -50,6 +50,8 @@ db.once("open", function() {
 // Routes
 // ======
 
+var wwwUrl = "http://www.reuters.com";
+
 // A GET request to scrape the echojs website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with request
@@ -70,6 +72,7 @@ app.get("/scrape", function(req, res) {
       result.body = $(element).find("p").text();
       result.link = $(element).find("a").attr("href");
       result.image = $(element).find("img").attr("org-src");
+
       // Using our Article model, create a new entry
       // This effectively passes the result object to the entry (and the title and link)
       var entry = new Article(result);
