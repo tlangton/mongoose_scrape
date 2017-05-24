@@ -28,10 +28,12 @@ var ArticleSchema = new Schema({
     required: true
   },
   // This only saves one note's ObjectId, ref refers to the Note model
-  note: {
-    type: Schema.Types.ObjectId,
-    ref: "Note"
-  }
+  notes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Note"
+    }
+  ]
 });
 
 ArticleSchema.plugin(uniqueValidator);
