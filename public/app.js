@@ -9,15 +9,16 @@ $.getJSON("/articles", function(data) {
       "<p data-id='" +
         data[i]._id +
         "'>" +
-        data[i].title +
-        "<br />" +
+        "<br /><img src=http:" +
+        data[i].image +
+        '">' +
         '<a href="' +
         wwwUrl +
         data[i].link +
-        '">Link</a>' +
-        "<br /><img src=http:" +
-        data[i].image +
-        '"></p>'
+        '">' +
+        data[i].title +
+        "</a>" +
+        "</p>"
     );
   }
 });
