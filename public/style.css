@@ -1,4 +1,15 @@
-body { background-color: #ccc }
+body {
+  background-color: #bbb;
+
+ }
+
+
+ /*.jumbotron {
+background-image: url(../images/weegee.jpg );
+/*background-size: cover;*/
+/*height: 100%;}*/
+
+
 #wrapper {
   width: 90%;
   margin-left: auto;
@@ -7,12 +18,14 @@ body { background-color: #ccc }
 }
 #articles {
   display: inline-block;
+  background-image: url(../images/weegee.jpg );
+
   /*overflow: auto;*/
   /*width: 65%;*/
   /*height: 700px;*/
   background-color: #dee;
-  /*padding: 12px;
-  margin: 42px;*/
+  padding: 12px;
+  margin: 12px;
 }
 
 #articles.img{
@@ -31,6 +44,7 @@ float: right;
 #bodytext, #bodytext1 {
   font-size: 14px;
   padding-top: 4px;
+  font-weight: 600;
   /*padding-left: 10px;*/
 }
 
@@ -44,6 +58,11 @@ float: right;
   margin-bottom: 10px;
   margin-right:  10px;
 }
+#weegee{
+text-align: center;
+  }
+
+
 textarea, input {
   display: block;
   width: 100%;
