@@ -1,20 +1,47 @@
-<div id="wrapper">
+
+<div class="jumbotron">
+  <div id="wrapper">
   <h1>Reuters Scraper</h1>
   <button class="btn btn-default btn-sm" id="scrape">Scrape</button>
+  <p id="bodytext1"> The Reuters News Agency employs some 2,500 journalists and 600 photojournalists in about 200 locations worldwide. </p>
   <div id="articles">
     {{#each articles as |article|}}
+
+    <div class="media">
+
+
       <div class="article" data-id="{{article.id}}">
-        <img src="{{article.image}}">
-        <a href="http://www.reuters.com{{article.link}}">
+
+        <div class="media-left media-middle">
+          <a href="#">
+
+        <img class="media-object" src="{{article.image}}">
+      </a>
+        </div>
+
+
+      <div class="media-body">
+        <h4 class="media-heading">
+        <a href="http://www.reuters.com{{article.link}}" target="_blank">
       {{article.title}}
       </a>
+      </h4>
+      <p id="bodytext">
       {{article.body}}
+</p>
+
         <span class="btn btn-default btn-sm new-note">Note!</span>
         <div class="notes"></div>
       </div>
+
+
+    </div>
+    </div>
+
     {{/each}}
   </div>
 
+</div>
 </div>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="/app.js"></script>

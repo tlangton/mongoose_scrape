@@ -3,7 +3,7 @@ body { background-color: #ccc }
   width: 90%;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 5%;
+  /*padding-top: 5%;*/
 }
 #articles {
   display: inline-block;
@@ -21,11 +21,17 @@ height:133;
 }
 
 .article {
-  margin: 10px;
+  /*margin: 10px;*/
 }
 
 .new-note {
 float: right;
+}
+
+#bodytext, #bodytext1 {
+  font-size: 14px;
+  padding-top: 4px;
+  /*padding-left: 10px;*/
 }
 
 #notes {
@@ -35,6 +41,8 @@ float: right;
 
 #scrape{
   float:left;
+  margin-bottom: 10px;
+  margin-right:  10px;
 }
 textarea, input {
   display: block;
