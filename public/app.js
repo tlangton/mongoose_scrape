@@ -1,52 +1,34 @@
 var wwwUrl = "http://www.reuters.com";
+// Whenever someone clicks a p tag
 
-// Grab the articles as a json
-$.getJSON("/articles", function(data) {
-  // For each one
-  for (var i = 0; i < data.length; i++) {
-    // Display the apropos information on the page
-    $("#articles").append(
-      "<p data-id='" +
-        data[i]._id +
-        "'>" +
-        "<br /><img src=http:" +
-        data[i].image +
-        '">' +
-        '<a href="' +
-        wwwUrl +
-        data[i].link +
-        '">' +
-        data[i].title +
-        "</a>" +
-        "</p>"
-    );
-  }
+$("#scrape").click(function() {
+  $.get("/scrape").then(function() {
+    window.location.reload();
+  });
 });
 
-// Whenever someone clicks a p tag
-$(document).on("click", "p", function() {
+$(document).on("click", ".new-note", function() {
   // Empty the notes from the note section
-  $("#notes").empty();
+  $(".notes").empty();
   // Save the id from the p tag
-  var thisId = $(this).attr("data-id");
-
+  var thisId = $(this).closest(".article").attr("data-id");
+  var $notes = $(this).closest(".article").find(".notes");
   // Now make an ajax call for the Article
-  $.ajax({
-    method: "GET",
-    url: "/articles/" + thisId
-  })
+  $.get("/articles/" + thisId)
     // With that done, add the note information to the page
     .done(function(data) {
       console.log(data);
-      // The title of the article
-      $("#notes").append("<h2>" + data.title + "</h2>");
+      // The title of the articleo
+      $notes.append("<h2>" + data.title + "</h2>");
       // An input to enter a new title
-      $("#notes").append("<input id='titleinput' name='title' >");
+      $notes.append("<input id='titleinput' name='title' >");
       // A textarea to add a new note body
-      $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
+      $notes.append("<textarea id='bodyinput' name='body'></textarea>");
       // A button to submit a new note, with the id of the article saved to it
-      $("#notes").append(
-        "<button data-id='" + data._id + "' id='savenote'>Save Note</button>"
+      $notes.append(
+        "<button class='btn btn-default btn-sm' data-id='" +
+          data._id +
+          "' id='savenote'>Save Note</button>"
       );
 
       // If there's a note in the article
@@ -65,22 +47,18 @@ $(document).on("click", "#savenote", function() {
   var thisId = $(this).attr("data-id");
 
   // Run a POST request to change the note, using what's entered in the inputs
-  $.ajax({
-    method: "POST",
-    url: "/articles/" + thisId,
-    data: {
-      // Value taken from title input
-      title: $("#titleinput").val(),
-      // Value taken from note textarea
-      body: $("#bodyinput").val()
-    }
+  $.post("/articles/" + thisId, {
+    // Value taken from title input
+    title: $("#titleinput").val(),
+    // Value taken from note textarea
+    body: $("#bodyinput").val()
   })
     // With that done
     .done(function(data) {
       // Log the response
       console.log(data);
       // Empty the notes section
-      $("#notes").empty();
+      $(".notes").empty();
     });
 
   // Also, remove the values entered in the input and textarea for note entry

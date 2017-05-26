@@ -1,0 +1,20 @@
+<div id="wrapper">
+  <h1>Reuters Scraper</h1>
+  <button class="btn btn-default btn-sm" id="scrape">Scrape</button>
+  <div id="articles">
+    {{#each articles as |article|}}
+      <div class="article" data-id="{{article.id}}">
+        <img src="{{article.image}}">
+        <a href="http://www.reuters.com{{article.link}}">
+      {{article.title}}
+      </a>
+      {{article.body}}
+        <span class="btn btn-default btn-sm new-note">Note!</span>
+        <div class="notes"></div>
+      </div>
+    {{/each}}
+  </div>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="/app.js"></script>

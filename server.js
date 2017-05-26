@@ -10,10 +10,11 @@ var Article = require("./models/Article.js");
 var request = require("request");
 var cheerio = require("cheerio");
 // Set mongoose to leverage built in JavaScript ES6 Promises
-mongoose.Promise = Promise;
+mongoose.Promise = require("bluebird");
 
 // Initialize Express
 var app = express();
+app.set("view engine", "hbs");
 
 // Use morgan and body parser with our app
 app.use(logger("dev"));
@@ -63,6 +64,8 @@ app.get("/scrape", function(req, res) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(html);
     // Now, we grab every h2 within an article tag, and do the following:
+    let stories = [];
+
     $(".story").each(function(i, element) {
       // Save an empty result object
       var result = {};
@@ -78,19 +81,14 @@ app.get("/scrape", function(req, res) {
       var entry = new Article(result);
 
       // Now, save that entry to the db
-      entry.save(function(err, doc) {
-        // Log any errors
-        if (err) {
-          console.log(err);
-        } else {
-          // Or log the doc
-          console.log(doc);
-        }
-      });
+      return entry.save().then(story => stories.push(story)).catch(e => {});
     });
+
+    console.log("STORIES", stories);
+
+    Promise.all(stories).then(() => res.send("Done"));
+    // .catch(e => res.send("DONE"));
   });
-  // Tell the browser that we finished scraping the text
-  res.send("Scrape Complete");
 });
 
 // This will get the articles we scraped from the mongoDB
@@ -150,6 +148,13 @@ app.post("/articles/:id", function(req, res) {
           }
         });
     }
+  });
+});
+
+// Render hbs template
+app.get("/", (req, res) => {
+  Article.find({}, function(error, articles) {
+    res.render("index", { articles: articles.reverse() });
   });
 });
 

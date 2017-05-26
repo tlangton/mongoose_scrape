@@ -1,0 +1,51 @@
+body { background-color: #ccc }
+#wrapper {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 5%;
+}
+#articles {
+  display: inline-block;
+  /*overflow: auto;*/
+  /*width: 65%;*/
+  /*height: 700px;*/
+  background-color: #dee;
+  /*padding: 12px;
+  margin: 42px;*/
+}
+
+#articles.img{
+height:133;
+ width:200;
+}
+
+.article {
+  margin: 10px;
+}
+
+.new-note {
+float: right;
+}
+
+#notes {
+  /*float: right;*/
+  /*width: 30%;*/
+}
+
+#scrape{
+  float:left;
+}
+textarea, input {
+  display: block;
+  width: 100%;
+  background-color: #eff;
+}
+input {
+  height: 36px;
+  font-size: 16px;
+}
+textarea {
+  height: 100px;
+  font-size: 12px;
+}
