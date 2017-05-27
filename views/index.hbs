@@ -5,23 +5,15 @@
     <p id="bodytext1"> The Reuters News Agency employs some 2,500 journalists and 600 photojournalists in about 200 locations worldwide. </p>
     <div id="articles">
       {{#each articles as |article|}}
-
         <div class="media">
-
-
           <div class="article" data-id="{{article.id}}">
-
             <div class="media-left media-middle">
               <a href="#">
-
                 <a href="http://www.reuters.com{{article.link}}" target="_blank">
               <img class="media-object" src="{{article.image}}">
                 </a>
-
-      </a>
+              </a>
             </div>
-
-
             <div class="media-body">
               <h4 class="media-heading">
         <a href="http://www.reuters.com{{article.link}}" target="_blank">
@@ -31,15 +23,17 @@
               <p id="bodytext">
                 {{article.body}}
               </p>
-
-              <span class="btn btn-default btn-sm new-note">Note!</span>
+              <button class="btn btn-default btn-sm new-note" type="button">
+                Note! <span class="badge">{{article.note.length}}</span>
+              </button>
               <div class="notes"></div>
             </div>
-
-
           </div>
         </div>
-
+        {{else}}
+        			<div class="panel panel-danger">
+        			  <div class="panel-heading">No news! Please click Scrape.</div>
+        			</div>
       {{/each}}
     </div>
     <div id="weegee"> <a href="https://en.wikipedia.org/wiki/Weegee" target="_blank">In the background -> Weegee - Infamous Photographer</a> </div>
