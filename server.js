@@ -125,6 +125,11 @@ app.get("/articles/:id", function(req, res) {
 
 // Create a new note or replace an existing note
 app.post("/articles/:id", function(req, res) {
+  console.log("\n");
+  console.log("REQ PARAMS IN comments POST no parseInt", req.params.id);
+  console.log("\n");
+  console.log("REQ BODY In comments POST", req.body.body);
+
   // Create a new note and pass the req.body to the entry
   var newNote = new Note(req.body);
 
@@ -136,7 +141,10 @@ app.post("/articles/:id", function(req, res) {
     } else {
       // Otherwise
       // Use the article id to find and update it's note
-      Article.findOneAndUpdate({ _id: req.params.id }, { note: doc._id })
+      Article.findOneAndUpdate(
+        { _id: req.params.id },
+        { $push: { note: doc._id } }
+      )
         // Execute the above query
         .exec(function(err, doc) {
           // Log any errors
@@ -154,8 +162,8 @@ app.post("/articles/:id", function(req, res) {
 // Render hbs template
 app.get("/", (req, res) => {
   Article.find({}, function(error, articles) {
-    res.render("index", { articles: articles.reverse() });
-  });
+    res.render("index", { articles: articles });
+  }).sort({ date: "descending" });
 });
 
 // Listen on port 3000 if not heroku
