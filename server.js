@@ -3,8 +3,8 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
-// Requiring our Note and Article models
-var Note = require("./models/Note.js");
+// Requiring our notes and Article models
+var notes = require("./models/note.js");
 var Article = require("./models/Article.js");
 // Our scraping tools
 var request = require("request");
@@ -53,7 +53,7 @@ db.once("open", function() {
 
 var wwwUrl = "http://www.reuters.com";
 
-// A GET request to scrape the echojs website
+// A GET request to scrape the Reuters website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with request
   request("http://www.reuters.com/news/archive/topNews/", function(
@@ -109,41 +109,59 @@ app.get("/articles", function(req, res) {
 app.get("/articles/:id", function(req, res) {
   // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
   Article.findOne({ _id: req.params.id })
-    // ..and populate all of the notes associated with it
-    .populate("note")
+    // ..and populate all of the notess associated with it
+    .populate("notes")
     // now, execute our query
-    .exec(function(error, doc) {
+    .exec(function(error, article) {
       // Log any errors
       if (error) {
+        res.json(error);
+
         console.log(error);
       } else {
-        // Otherwise, send the doc to the browser as a json object
-        res.json(doc);
+        // Otherwise, send the article to the browser as a json object
+        res.json(article);
       }
     });
 });
 
-// Create a new note or replace an existing note
+app.get("/articles/:id/notes", (req, res) => {
+  Article.findOne({ _id: req.params.id })
+    // ..and populate all of the notess associated with it
+    .populate("notes")
+    // now, execute our query
+    .exec(function(error, article) {
+      // Log any errors
+      if (error) {
+        console.log(error);
+      } else {
+        // Otherwise, send the article to the browser as a json object
+        res.json(article.notes);
+      }
+    });
+});
+
+// Create a new notes or replace an existing notes
 app.post("/articles/:id", function(req, res) {
-  console.log("\n");
-  console.log("REQ PARAMS IN comments POST no parseInt", req.params.id);
-  console.log("\n");
-  console.log("REQ BODY In comments POST", req.body.body);
+  // console.log("\n");
+  // console.log("REQ PARAMS IN comments POST no parseInt", req.params.id);
+  // console.log("\n");
+  // console.log("REQ BODY In comments POST", req.body.body);
 
-  // Create a new note and pass the req.body to the entry
-  var newNote = new Note(req.body);
+  // Create a new notes and pass the req.body to the entry
+  var newnotes = new notes(req.body);
 
-  // And save the new note the db
-  newNote.save(function(error, doc) {
+  // And save the new notes the db
+  newnotes.save(function(error, doc) {
     // Log any errors
     if (error) {
       console.log(error);
     } else {
       // Otherwise
-      // Use the article id to find and update it's note
+      // Use the article id to find and update it's notes
       Article.findOneAndUpdate(
         { _id: req.params.id },
-        { $push: { note: doc._id } }
+        { $push: { notes: doc._id } }
       )
         // Execute the above query
         .exec(function(err, doc) {
@@ -151,7 +169,6 @@ app.post("/articles/:id", function(req, res) {
           if (err) {
             console.log(err);
           } else {
-            // Or send the document to the browser
             res.send(doc);
           }
         });
