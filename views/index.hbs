@@ -11,29 +11,45 @@
               <a href="#">
                 <a href="http://www.reuters.com{{article.link}}" target="_blank">
               <img class="media-object" src="{{article.image}}">
-                </a>
+</a>
               </a>
             </div>
             <div class="media-body">
               <h4 class="media-heading">
         <a href="http://www.reuters.com{{article.link}}" target="_blank">
       {{article.title}}
-      </a>
-      </h4>
+  </a>
+</h4>
               <p id="bodytext">
                 {{article.body}}
               </p>
-              <button class="btn btn-default btn-sm new-note" type="button">
-                Note! <span class="badge">{{article.notes.length}}</span>
-              </button>
-              <div class="notes"></div>
+              <button class="btn btn-default btn-sm new-note" type="button" data-toggle="modal" data-target="#myModal">Note! <span class="badge">{{article.notes.length}}</span></button>
+              <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">{{article.title}}</h4>
+                    </div>
+
+                    <div class="notes"></div>
+                    <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+                  </div>
+
+                </div>
+              </div>
             </div>
           </div>
         </div>
+        <!-- </div> -->
+        <!-- </div> -->
         {{else}}
-        			<div class="panel panel-danger">
-        			  <div class="panel-heading">No news! Please click Scrape.</div>
-        			</div>
+          <!-- <div class="panel panel-danger"> -->
+          <h2>No news! Please click Scrape.</h2>
+          <!-- </div> -->
       {{/each}}
     </div>
     <div id="weegee"> <a href="https://en.wikipedia.org/wiki/Weegee" target="_blank">In the background -> Weegee - Infamous Photographer</a> </div>

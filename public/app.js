@@ -10,31 +10,52 @@ $("#scrape").click(function() {
 $(document).on("click", ".new-note", function() {
   // Empty the notes from the note section
   $(".notes").empty();
-  $(".notes").slideUp();
+  // $(".notes").slideUp();
   // Save the id from the p tag
   var thisId = $(this).closest(".article").attr("data-id");
   var $notes = $(this).closest(".article").find(".notes");
   var $button = $(this);
+  console.log(thisId);
   // Now make an ajax call for the Article
   $.get("/articles/" + thisId)
     // With that done, add the note information to the page
     .done(function(article) {
       console.log(article);
       $button.find(".badge").html(article.notes.length);
+      ////modal start
 
+      $notes.append("<div class='panel panel-default'>");
+      $notes.append("<div class='panel-heading'>");
+
+      $notes.append("<h3 class='panel-title'>Note Entry</h3>");
+      $notes.append("<div class='panel-body'>");
       // A textarea to add a new note body
-      $notes.append("<textarea id='bodyinput' name='body'></textarea>");
+      $notes.append(
+        "<textarea id='bodyinput' name='body' placeholder='Enter your note here.'></textarea>"
+      );
       // A button to submit a new note, with the id of the article saved to it
       $notes.append(
         "<button class='btn btn-default btn-sm' data-id='" +
           article._id +
-          "' id='savenote'>Save Note</button>"
+          "' id='savenote' data-dismiss='modal'>Save Note</button>" +
+          "  <button type='button' class='btn btn-default btn-sm' id='note-cancel' data-dismiss='modal'>Cancel</button>"
       );
-      $(".notes").slideDown();
+      // $notes.append("</div>");
+      $notes.append("</div>");
+      $notes.append("</div>");
+      $notes.append("</div>");
+      // $(".notes").slideDown();
+      $notes.append("<h4 id='bodytext'>Notes</h4>");
+      $notes.append("<ul class='list-group'>");
 
       article.notes.forEach(function(note) {
-        $notes.append("<div class='note'> " + note.body + "</div>");
+        $notes.append(
+          "<li class='note list-group-item'> " + note.body + "</li>"
+        );
+        $notes.append("</ul></div>");
       });
+
+      ////modal stop
     });
 });
 

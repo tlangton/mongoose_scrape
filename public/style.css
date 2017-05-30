@@ -1,28 +1,21 @@
 body {
   background-color: #bbb;
-
  }
 
-
- /*.jumbotron {
-background-image: url(../images/weegee.jpg );
-/*background-size: cover;*/
-/*height: 100%;}*/
-
+ textarea {
+   margin-top:  12px;
+   margin-bottom:  12px;
+ }
 
 #wrapper {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
-  /*padding-top: 5%;*/
+
 }
 #articles {
   display: inline-block;
   background-image: url(../images/weegee.jpg );
-
-  /*overflow: auto;*/
-  /*width: 65%;*/
-  /*height: 700px;*/
   background-color: #dee;
   padding: 12px;
   margin: 12px;
@@ -48,9 +41,10 @@ float: right;
   /*padding-left: 10px;*/
 }
 
-#notes {
-  /*float: right;*/
-  /*width: 30%;*/
+.notes {
+margin: auto;
+border-bottom: 12px;
+  width: 90%;
 }
 
 #scrape{
